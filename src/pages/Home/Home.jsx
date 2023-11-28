@@ -6,6 +6,10 @@ import Heroimg from "../../assets/Heroimg.png";
 import Heroimg2 from "../../assets/Heroimg1.png";
 import Heroimg1 from "../../assets/Heroimg2.png";
 import ServiceCard from "../../components/ServiceCard/ServiceCard";
+import Footer from "../../components/Footer/Footer";
+import Discounts from "./components/Discounts";
+import Articles from "./components/Articles";
+import ProductList from "../../components/ProductList/ProductList";
 
 function Home() {
   return (
@@ -28,7 +32,7 @@ function Home() {
           since 2019.
         </p>
       </div>
-
+      <ProductList />
       <div className="lg:mx-[160px] flex flex-wrap items-stretch justify-center gap-x-2 gap-y-6">
         <ServiceCard
           Icon={Truck}
@@ -50,6 +54,9 @@ function Home() {
           title=" Support 24/7"
           description="Phone and email support"
         />
+        <Discounts />
+        <Articles />
+        <Footer />
       </div>
     </div>
   );

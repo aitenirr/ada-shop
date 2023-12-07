@@ -1,12 +1,59 @@
 import { Heart, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
+import { toast } from "sonner";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  console.log("products:", products);
+
+  useEffect(() => {
+    const productInLocalStorage = JSON.parse(
+      localStorage.getItem("__ada-shop:cart")
+    );
+    if (productInLocalStorage) {
+      setProducts(productInLocalStorage);
+    }
+  }, []);
 
   function handleClick() {
     navigate("/products/" + product.id);
   }
+  function handleSave(event) {
+    event.stopPropagation();
+
+    const previousProducts = JSON.parse(
+      localStorage.getItem("__ada-shop:cart")
+    );
+    if (previousProducts) {
+      const existProduct = previousProducts.find(
+        (item) => item.id === product.id
+      );
+      if (existProduct) {
+        const filteredProducts = previousProducts.filter(
+          (item) => item.title !== existProduct.title
+        );
+        localStorage.setItem(
+          "__ada-shop:cart",
+          JSON.stringify(filteredProducts)
+        );
+        setProducts(filteredProducts);
+
+        toast.info("true");
+      } else {
+        const result = [...previousProducts, product];
+        setProducts(result);
+        localStorage.setItem("__ada-shop:cart", JSON.stringify(result));
+        toast.success("false");
+      }
+    } else {
+      setProducts([product]);
+      localStorage.setItem("__ada-shop:cart", JSON.stringify([product]));
+    }
+  }
+
   return (
     <div
       className="hover:shadow-2xl hover:scale-[1.05] duration-500 rounded-2xl p-3 hover:cursor-pointer"
@@ -18,8 +65,21 @@ function ProductCard({ product }) {
             <span className="uppercase font-bold bg-white px-3 py-1 rounded">
               new
             </span>
-            <div className=" bg-white p-1.5 rounded-full shadow-xl">
-              <Heart strokeWidth={1} />
+            <div
+              onClick={handleSave}
+              className=" bg-white p-1.5 rounded-full shadow-xl"
+            >
+              <Heart
+                className={clsx(
+                  "transition-[fill] duration-500 hover:stroke-red-500  hover:fill-red-500",
+                  {
+                    "stroke-red-500 fill-red-500": Boolean(
+                      products.find((item) => item.id === product.id)
+                    ),
+                  }
+                )}
+                strokeWidth={1}
+              />
             </div>
           </div>
 

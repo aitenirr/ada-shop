@@ -16,11 +16,17 @@ function Header() {
       </nav>
       <div className="flex">
         <Search className="hidden md:block" color="#000" strokeWidth={1.25} />
-        <UserCircle2
-          className="hidden md:block"
-          color="#000"
-          strokeWidth={1.25}
-        />
+        <Link
+          to="/sign-in"
+          className="p-1 rounded-full transition duration-500
+          hover:cursor-pointer hover:bg-gray-200"
+        >
+          <UserCircle2
+            className="hidden md:block"
+            color="#000"
+            strokeWidth={1.25}
+          />
+        </Link>
         <ShoppingBag color="#000" strokeWidth={1.25} />
       </div>
     </header>

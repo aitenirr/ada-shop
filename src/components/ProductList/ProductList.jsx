@@ -1,14 +1,17 @@
 import axios from "axios";
 import ProductCard from "../ProductCard/ProductCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function ProductList() {
   const [products, setPoducts] = useState([]);
-  console.log("products", products);
+
   async function getProducts() {
     const response = await axios.get("https://dummyJson.com/products");
     setPoducts(response.data.products);
   }
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div className="container mx-auto px-8">
